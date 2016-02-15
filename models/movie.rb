@@ -1,6 +1,6 @@
 class Movie
 
-  attr_accessor :name
+  attr_accessor :name, :genre
 
   def initialize(name)
     @name = name
@@ -11,5 +11,4 @@ class Movie
       review.movie.name
     end.uniq.sort
   end
-
 end
