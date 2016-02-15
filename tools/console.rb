@@ -1,3 +1,4 @@
+require 'pry'
 require_relative '../config/environment.rb'
 require_relative 'seed.rb'
 
@@ -53,11 +54,14 @@ while action != 'exit'
         controller.print_rating(rating,reviews)
 
       when 'genre'
-
+        controller = MoviesController.new
+        user_input = controller.prompt_genre
+        controller = MoviesController.new
+        movies = controller.find_movie_by_genre(user_input)
+        controller = MoviesController.new
+        controller.print_movies(movies)
       end
-
   end
-
 end
 
-Pry.start
+#Pry.start
