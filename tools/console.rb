@@ -9,7 +9,7 @@ end
 
 action = 0
 while action != 'exit'
-  puts "What would you like to do today? (write a review, find reviews)"
+  puts "What would you like to do today? (write a review, find reviews, browse movies)"
   action = gets.chomp
 
   case action
@@ -33,7 +33,7 @@ while action != 'exit'
       controller.add_star_count(review,star_count)
 
     when 'find reviews'
-      puts 'How would you like to find reviews? (movie, rating, genre)'
+      puts 'How would you like to find reviews? (movie, rating, by user/critic)'
       action = gets.chomp
 
       case action
@@ -52,7 +52,13 @@ while action != 'exit'
         reviews = controller.find_reviews_by_rating(rating)
         controller = ReviewsController.new
         controller.print_rating(rating,reviews)
-
+      end
+    
+    when 'browse movies'
+      puts 'How would you like to browse movies? (genre, average rating)'
+      action = gets.chomp
+      
+      case action 
       when 'genre'
         controller = MoviesController.new
         user_input = controller.prompt_genre
@@ -61,7 +67,7 @@ while action != 'exit'
         controller = MoviesController.new
         controller.print_movies(movies)
       end
-  end
+    end
 end
 
 #Pry.start
