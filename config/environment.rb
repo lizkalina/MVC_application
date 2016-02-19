@@ -1,3 +1,8 @@
+require 'pry'
+require 'sqlite3'
+
+DB = {:conn => SQLite3::Database.new("db/movies.db")}
+
 require_relative '../models/movie.rb'
 require_relative '../models/review.rb'
 require_relative '../controllers/review_controller.rb'
