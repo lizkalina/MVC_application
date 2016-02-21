@@ -1,7 +1,24 @@
 require 'pry'
 require 'sqlite3'
 
-DB = {:conn => SQLite3::Database.new("db/movies.db")}
+DB = {:conn => SQLite3::Database.new("../db/movies.db")}
+
+DB[:conn].execute("DROP TABLE IF EXISTS reviews")
+DB[:conn].execute("DROP TABLE IF EXISTS movies")
+DB[:conn].execute("DROP TABLE IF EXISTS genres")
+DB[:conn].execute("DROP TABLE IF EXISTS movies_reviews")
+
+sql = <<-SQL
+ CREATE TABLE movies (
+    id INTEGER PRIMARY KEY, 
+    title TEXT,
+    genre_id INTEGER
+  );
+  SQL
+
+DB[:conn].execute(sql)
+
+
 
 require_relative '../models/movie.rb'
 require_relative '../models/review.rb'
