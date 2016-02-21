@@ -1,17 +1,17 @@
 require 'pry'
 require_relative '../config/environment.rb'
-require_relative 'seed.rb'
+# require_relative 'seed.rb'
+require 'sqlite3'
+
 
 def reload!
     load('../config/environment.rb')
 end
 
-
 action = 0
 while action != 'exit'
   puts "What would you like to do today? (write a review, find reviews, browse movies)"
   action = gets.chomp
-
   case action
     when 'write a review'
       controller = ReviewsController.new
