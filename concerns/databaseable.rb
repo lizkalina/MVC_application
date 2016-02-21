@@ -35,6 +35,20 @@ module Databaseable
     end
 
 
+    def find_or_create(attribute)
+
+      output = self.find_by(attribute)
+
+      if !output.empty?
+        output
+      elses
+        new_instance = self.new(attribute)
+        new_instance.save
+      end
+      new_instance
+    end
+
+
   end
 
 
@@ -55,7 +69,7 @@ module Databaseable
     def values_for_insert
       values = []
       self.class.column_names.each do |col_name|
-        values << "'#{send(col_name)}'" unless send(col_name).nil?
+        values << "'#{send(col_name)}'" unless col_name == "id"
       end
       values.join(", ")
     end
