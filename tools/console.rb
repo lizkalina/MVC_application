@@ -1,6 +1,5 @@
 require 'pry'
 require_relative '../config/environment.rb'
-# require_relative 'seed.rb'
 
 def reload!
     load('../config/environment.rb')
@@ -12,6 +11,7 @@ while action != 'exit'
   action = gets.chomp
   case action
     when 'write a review'
+
       controller = ReviewsController.new
       movie_name = controller.new
       
@@ -19,16 +19,14 @@ while action != 'exit'
       movie = controller.find_or_create(movie_name)
       
       controller = ReviewsController.new
-      review = controller.create(movie)
+      user_input = controller.prompt_review(movie)
 
       controller = ReviewsController.new
-      user_input = controller.prompt_review
+      review = controller.create(user_input)
+
       controller = ReviewsController.new
-      controller.add_review(review,user_input)
-      controller = ReviewsController.new
-      star_count = controller.prompt_star_count
-      controller = ReviewsController.new
-      controller.add_star_count(review,star_count)
+      controller.add_review(review)
+
 
     when 'find reviews'
       puts 'How would you like to find reviews? (movie, rating, by user/critic)'
@@ -38,8 +36,10 @@ while action != 'exit'
       when 'movie'
         controller = ReviewsController.new
         movie_name = controller.search_by_movie
+
         controller = ReviewsController.new
         reviews = controller.find_reviews_by_movie(movie_name)
+
         controller = ReviewsController.new
         controller.print_movie(movie_name,reviews)
 

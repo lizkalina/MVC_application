@@ -41,7 +41,7 @@ module Databaseable
 
       if !output.empty?
         output
-      elses
+      else
         new_instance = self.new(attribute)
         new_instance.save
       end

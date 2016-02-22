@@ -5,30 +5,33 @@ class ReviewsController
     view.render
   end
 
-  def create(movie)
-    review = Review.new(movie)
-  end
-
-  def prompt_review
+  def prompt_review(movie)
     view = ReviewTextView.new
-    view.render
+    view.render(movie)
   end
 
-  def add_review(review,user_input)
-    review.review_text = user_input
+  def create(attributes)
+    review = Review.new(attributes)
   end
 
-  def prompt_star_count
-    input = 0
-    while !['*','**','***','****','*****'].include? (input)
-      view = ReviewStarCountView.new
-      input = view.render
+  def add_review(review)
+    review.save
+  end
+
+  def find_reviews_by_movie(movie_name)
+    movie = Movie.find_by(title:movie_name).first
+    movie_id = movie["id"]
+    Review.find_by(movie_id:movie_id) || "No reviews available"
+  end #returns an array of all matching movies
+
+  def print_movie(movie_name,reviews)
+    if reviews.count == 0
+      view = ReviewNoneView.new
+      view.render
+    else
+      view = ReviewMoviePrintView.new
+      view.render(movie_name,reviews)
     end
-    input
-  end
-
-  def add_star_count(review,user_input)
-    review.star_count = user_input
   end
 
   def search_by_movie
@@ -47,9 +50,11 @@ class ReviewsController
     view.render
   end
 
-  def find_reviews_by_movie(movie_name)
-    Review.all.select{|review| review.movie.name == movie_name if review.movie.name != nil} || "No reviews available"
-  end
+
+####everything above this works####
+
+
+
 
   def search_by_rating
     view = ReviewRatingView.new
@@ -60,15 +65,7 @@ class ReviewsController
     Review.all.select{|review| review.star_count == count} || "No reviews available"
   end
 
-  def print_movie(movie,reviews)
-    if reviews.count == 0
-      view = ReviewNoneView.new
-      view.render
-    else
-      view = ReviewMoviePrintView.new
-      view.render(movie,reviews)
-    end
-  end
+
 
   def print_rating(rating,reviews)
     if reviews.count == 0
