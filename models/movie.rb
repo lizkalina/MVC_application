@@ -54,12 +54,12 @@ class Movie
     DB[:conn].execute(sql, id)
   end
 
-  def self.all
-    sql = <<-SQL
-    SELECT * FROM movies
-    SQL
-    DB[:conn].execute(sql)
-  end
+  # def self.all
+  #   sql = <<-SQL
+  #   SELECT * FROM movies
+  #   SQL
+  #   DB[:conn].execute(sql)
+  # end
   # def self.names
   #   Movie.all.collect do |review|
   #     review.movie.name

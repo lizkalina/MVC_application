@@ -48,6 +48,12 @@ module Databaseable
       new_instance
     end
 
+    def all
+      sql = <<-SQL
+        SELECT * FROM "#{self.table_name}"
+      SQL
+      db.execute(sql)
+    end
 
   end
 
