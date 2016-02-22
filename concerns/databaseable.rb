@@ -23,7 +23,8 @@ module Databaseable
       column_names.compact
     end
 
-    def find_by(attribute) # will be a key value pair
+
+    def find_by(attribute) # attribute will be a key value pair
       header = attribute.keys.join
       value = attribute.values.join
       if value.is_a? Integer
@@ -35,17 +36,17 @@ module Databaseable
     end
 
 
-    def find_or_create(attribute)
+    def find_or_create(attributes)
 
-      output = self.find_by(attribute)
-
+      output = self.find_by(attributes)
       if !output.empty?
-        output
+        attributes = output.first.delete_if{|k| k.is_a? Integer}
+        self.new(attributes)
       else
-        new_instance = self.new(attribute)
+        new_instance = self.new(attributes)
         new_instance.save
+        new_instance
       end
-      new_instance
     end
 
     def all

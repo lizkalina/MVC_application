@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 require_relative '../concerns/databaseable.rb'
 require 'pry'
 
-class Genre
+class Moviegenre
 
   extend Databaseable::ClassMethods
   include Databaseable::InstanceMethods
