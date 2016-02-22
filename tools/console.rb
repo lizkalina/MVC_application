@@ -60,8 +60,10 @@ while action != 'exit'
       when 'genre'
         controller = MoviesController.new
         user_input = controller.prompt_genre
+        
         controller = MoviesController.new
         movies = controller.find_movie_by_genre(user_input)
+        
         controller = MoviesController.new
         controller.print_movies(movies)
       end

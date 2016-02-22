@@ -1,68 +1,6 @@
 require_relative '../config/environment.rb'
 require 'sqlite3'
 
-DB[:conn].execute("DROP TABLE IF EXISTS reviews")
-DB[:conn].execute("DROP TABLE IF EXISTS movies")
-DB[:conn].execute("DROP TABLE IF EXISTS genres")
-DB[:conn].execute("DROP TABLE IF EXISTS users")
-DB[:conn].execute("DROP TABLE IF EXISTS movies_genres")
-
-sql = <<-SQL
- CREATE TABLE movies (
-    id INTEGER PRIMARY KEY, 
-    title TEXT,
-    genre_id INTEGER
-  );
-SQL
-
-DB[:conn].execute(sql)
-
- 
-sql = <<-SQL 
-  CREATE TABLE reviews (
-  id INTEGER PRIMARY KEY, 
-  review_text TEXT,
-  movie_id INTEGER,
-  star_count INTEGER
-  );
-  SQL
-
-DB[:conn].execute(sql)
-
-
-sql = <<-SQL 
-  CREATE TABLE genres (
-  id INTEGER PRIMARY KEY, 
-  name TEXT
-  );
-  SQL
-
-DB[:conn].execute(sql)
-
-
-sql = <<-SQL 
-  CREATE TABLE users (
-  id INTEGER PRIMARY KEY, 
-  name TEXT,
-  user_type TEXT
-  );
-  SQL
-
-DB[:conn].execute(sql)
-
-
-sql = <<-SQL
-  CREATE TABLE movies_genres (
-  id INTEGER PRIMARY KEY, 
-  movie_id TEXT,
-  genre_id TEXT
-  );
-SQL
-
-DB[:conn].execute(sql)
-
-
-
 
 ratings = [1, 2, 3, 4, 5]
 texts = ['Great movie!', 'This movie sucked.', 'Would recommend highly.', 'Two thumbs down','Fine','Go see it!','Da bomb.','Alright']
@@ -74,13 +12,12 @@ genres = ['action', 'romance', 'horror','comedy','sci-fi','historical drama'].co
 end
 
 movies = ['Zoolander','Braveheart','Clueless','Oceans Eleven','Fight Club'].collect do |name|
-  genre_id = genres.shuffle.first.id
-  movie = Movie.new(title: name, genre_id:genre_id)
+  movie = Movie.new(title: name)
   movie.save
   movie
 end
 
-reviews = 25.times.collect do |review|
+reviews = 100.times.collect do |review|
   movie_id = movies.shuffle.first.id
   star_count = ratings.shuffle.first
   text = texts.shuffle.first
@@ -91,8 +28,27 @@ reviews = 25.times.collect do |review|
     end
 end
 
-#genre
 
 #moviesgenres
 
+sql = <<-SQL 
+  SELECT genres.id FROM genres;
+  SQL
 
+genre_ids_hash = DB[:conn].execute(sql)
+genre_ids = genre_ids_hash.collect { |hash| hash["id"] } 
+
+sql = <<-SQL 
+  SELECT movies.id FROM movies;
+  SQL
+
+movie_ids_hash = DB[:conn].execute(sql)
+movie_ids = movie_ids_hash.collect { |hash| hash["id"] } 
+
+
+moviesgenres = 50.times.each do |row| 
+  movie_id = movies.shuffle.first.id
+  genre_id = genres.shuffle.first.id
+  moviegenre = Moviegenre.new(movie_id:movie_id, genre_id:genre_id)
+  moviegenre.save
+end
