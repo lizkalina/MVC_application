@@ -6,7 +6,7 @@ class ReviewsController
   end
 
   def prompt_review(movie)
-    view = ReviewTextView.new
+    view = PromptReviewView.new
     view.render(movie)
   end
 
@@ -34,7 +34,7 @@ class ReviewsController
     end
   end
 
-  def search_by_movie
+  def prompt_movie
     view = ReviewMovieView.new
     view = view.render
     while view == 'list'
@@ -45,26 +45,19 @@ class ReviewsController
     view
   end
 
+  def prompt_rating
+    view = PromptRatingView.new
+    view.render
+  end
+
   def print_movie_list
     view = PrintMovieList.new
     view.render
   end
 
-
-####everything above this works####
-
-
-
-
-  def search_by_rating
-    view = ReviewRatingView.new
-    view.render
+  def find_reviews_by_rating(rating)
+    Review.find_by(star_count:rating) || "No reviews available"
   end
-
-  def find_reviews_by_rating(count)
-    Review.all.select{|review| review.star_count == count} || "No reviews available"
-  end
-
 
 
   def print_rating(rating,reviews)
@@ -73,13 +66,8 @@ class ReviewsController
       view.render
     else
       view = ReviewRatingPrintView.new
-      view.render(rating, reviews)
+      view.render(rating,reviews)
     end
   end
-
-  # def print_genre(reviews)
-  #   view = ReviewGenrePrintView.new
-  #   view.render(reviews)
-  # end
 
 end

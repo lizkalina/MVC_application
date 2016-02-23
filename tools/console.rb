@@ -29,13 +29,13 @@ while action != 'exit'
 
 
     when 'find reviews'
-      puts 'How would you like to find reviews? (movie, rating, by user/critic)'
+      puts 'How would you like to find reviews? (movie, rating)'
       action = gets.chomp
 
       case action
       when 'movie'
         controller = ReviewsController.new
-        movie_name = controller.search_by_movie
+        movie_name = controller.prompt_movie
 
         controller = ReviewsController.new
         reviews = controller.find_reviews_by_movie(movie_name)
@@ -45,9 +45,11 @@ while action != 'exit'
 
       when 'rating'
         controller = ReviewsController.new
-        rating = controller.search_by_rating
+        rating = controller.prompt_rating
+
         controller = ReviewsController.new
         reviews = controller.find_reviews_by_rating(rating)
+
         controller = ReviewsController.new
         controller.print_rating(rating,reviews)
       end
@@ -59,13 +61,16 @@ while action != 'exit'
       case action 
       when 'genre'
         controller = MoviesController.new
-        user_input = controller.prompt_genre
+        genre = controller.prompt_genre
         
         controller = MoviesController.new
-        movies = controller.find_movie_by_genre(user_input)
+        movies = controller.find_movie_by_genre(genre)
         
         controller = MoviesController.new
         controller.print_movies(movies)
+      
+      when 'average rating'
+        controller = MoviesController.new
       end
     end
 end

@@ -37,15 +37,12 @@ module Databaseable
 
 
     def find_or_create(attributes)
-
-      output = self.find_by(attributes)
-      if !output.empty?
-        attributes = output.first.delete_if{|k| k.is_a? Integer}
+      rows = self.find_by(attributes)
+      if !rows.empty?
+        attributes = rows.first.delete_if{|header| header.is_a? Integer}
         self.new(attributes)
       else
-        new_instance = self.new(attributes)
-        new_instance.save
-        new_instance
+        self.new(attributes).tap { |instance| instance.save }
       end
     end
 

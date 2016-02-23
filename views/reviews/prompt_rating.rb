@@ -1,4 +1,4 @@
-class ReviewRatingView
+class PromptRatingView
   
   def render
     puts "What rating would you like to see movies for? (1 to 5)"

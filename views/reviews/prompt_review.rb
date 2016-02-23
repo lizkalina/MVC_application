@@ -1,4 +1,4 @@
-class ReviewTextView
+class PromptReviewView
   
   def render(movie)
     puts "Write your review here:"

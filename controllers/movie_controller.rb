@@ -4,10 +4,18 @@ class MoviesController
     Movie.find_or_create(title: movie_name)
   end
 
+
   def prompt_genre
     view = PromptGenre.new
-    view.render
+    view = view.render
+    while view == 'list'
+      print_genre_list
+      view = PromptGenre.new
+      view = view.render
+    end
+    view
   end
+
 
   def find_movie_by_genre(genre)
     genre = Genre.find_by(name:genre).first
@@ -28,4 +36,11 @@ class MoviesController
     view = PrintMovies.new
     view.render(movies)
   end
+
+
+  def print_genre_list
+    view = PrintGenreList.new
+    view.render
+  end
+
 end
