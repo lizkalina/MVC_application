@@ -27,12 +27,8 @@ module Databaseable
     def find_by(attribute) # attribute will be a key value pair
       header = attribute.keys.join
       value = attribute.values.join
-      if value.is_a? Integer
-        sql= "SELECT * FROM #{self.table_name} WHERE #{header} = #{value}"
-      else
-        sql= "SELECT * FROM #{self.table_name} WHERE #{header} = '#{value}'"
-      end
-      row = db.execute(sql)
+      sql = "SELECT * FROM #{self.table_name} WHERE #{header} = ?"
+      row = db.execute(sql,value)
     end
 
 
